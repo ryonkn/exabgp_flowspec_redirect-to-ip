@@ -1,0 +1,40 @@
+services:
+  exabgp1:
+    build: .
+    image: exabgp:latest
+    hostname: exabgp1
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      exabgp-network:
+        ipv4_address: 192.0.2.1
+        ipv6_address: 2001:db8:1:1::1
+    volumes:
+      - ./exabgp1.conf:/etc/exabgp/exabgp.conf
+      - ./exabgp.env:/usr/local/etc/exabgp/exabgp.env
+  exabgp2:
+    build: .
+    image: exabgp:latest
+    hostname: exabgp2
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      exabgp-network:
+        ipv4_address: 192.0.2.2
+        ipv6_address: 2001:db8:1:1::2
+    volumes:
+      - ./exabgp2.conf:/etc/exabgp/exabgp.conf
+      - ./exabgp.env:/usr/local/etc/exabgp/exabgp.env
+
+networks:
+  exabgp-network:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 192.0.2.0/24
+          gateway: 192.0.2.254
+        - subnet: 2001:db8:1:1::/64
+          gateway: 2001:db8:1:1::254
