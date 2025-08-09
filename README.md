@@ -16,6 +16,13 @@ It supports both IPv4 and IPv6 Flowspec rules and demonstrates different Redirec
 
 ---
 
+## Requirements
+
+- Docker
+- Docker Compose
+
+---
+
 ## Getting Started
 
 ### 1. Start the environment
@@ -67,16 +74,11 @@ neighbor 2001:db8:1:1::1 local-ip 2001:db8:1:1::2 local-as 65000 peer-as 65000 r
 
 ## How It Works
 
-- **Flowspec rules** are advertised from one ExaBGP container to another over established BGP sessions.
+- The environment consists of two ExaBGP containers, `exabgp1` and `exabgp2`.
+- **Flowspec rules** are defined in `exabgp1.conf` and advertised from the `exabgp1` container.
+- The `exabgp2` container receives these rules, as configured in `exabgp2.conf`.
 - Extended Communities are used to signal **Redirect-to-IP** actions.
 - Both traditional and IETF draft encodings are demonstrated for compatibility testing.
-
----
-
-## Requirements
-
-- Docker
-- Docker Compose
 
 ---
 
